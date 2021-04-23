@@ -27,6 +27,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 export default {
   name: 'app',
   data () {
@@ -38,16 +40,26 @@ export default {
     }
   },
   methods: {
-    fetchWeather () {
-        fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
-            .then(res => {
-              return res.json();
-            }).then(this.setResults);
+    // fetchWeather () {
+    //     fetch(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
+    //         .then(res => {
+    //           return res.json();
+    //         }).then(this.setResults);
+    //
+    // },
+    async fetchWeather(){
+      //alert("called fetchedWeather")
+
+      await axios.get(`${this.url_base}weather?q=${this.query}&units=metric&APPID=${this.api_key}`)
+          .then( response => {
+            this.weather = response.data
+            console.log(this.eventData);
+          })
 
     },
-    setResults (results) {
-      this.weather = results;
-    },
+    // setResults (results) {
+    //   this.weather = results;
+    // },
     dateBuilder () {
       var moment = require('moment');
       return moment().format('dddd MMMM Do YYYY');
